@@ -50,7 +50,7 @@
 	
 
 	
-		<h1 id="IPC机制"><a href="#IPC机制" class="headerlink" title="IPC机制"></a>IPC机制</h1><h3 id="安卓的多进程机制："><a href="#安卓的多进程机制：" class="headerlink" title="安卓的多进程机制："></a>安卓的多进程机制：</h3><ol>
+		<h2 id="IPC机制"><a href="#IPC机制" class="headerlink" title="IPC机制"></a>IPC机制</h2><h3 id="安卓的多进程机制："><a href="#安卓的多进程机制：" class="headerlink" title="安卓的多进程机制："></a>安卓的多进程机制：</h3><ol>
 <li><p>对于安卓来说，每一个进程是在一个单独虚拟机中运行的。也就是说不能很简单的共享两个不同的虚拟机中的堆内存，必须要用Binder机制来进行管理。</p>
 </li>
 <li><p>多进程下会出现一下问题：</p>
@@ -67,22 +67,16 @@
 <h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><ol>
 <li><p>Serializable接口</p>
 <p> 只需要任意提供一个</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID;</div><div class="line">```   	</div><div class="line">	</div><div class="line">	就可以自动序列化，这个是为了检查序列化版本是否相同。如果不自己指定一个的话，可能在类的结构发生改变之后使得不能反序列化回来。</div><div class="line"></div><div class="line"><span class="number">2</span>. Parcelable接口</div><div class="line"></div><div class="line">	``` <span class="function">java</span></div><div class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span>;</div></pre></td></tr></table></figure>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID;</div><div class="line">```   	</div><div class="line"></div><div class="line">	就可以自动序列化，这个是为了检查序列化版本是否相同。如果不自己指定一个的话，可能在类的结构发生改变之后使得不能反序列化回来。</div><div class="line"></div><div class="line"><span class="number">2</span>. Parcelable接口</div><div class="line"></div><div class="line">	``` <span class="function">java</span></div><div class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span>;</div></pre></td></tr></table></figure>
 <p> 返回当前对象的内容描述。如果有文件描述符返回1，反之为0。<a href="http://blog.csdn.net/lewif/article/details/50668783" target="_blank" rel="external">关于文件描述符</a>      </p>
  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel out, <span class="keyword">int</span> flags)</span></span>;</div></pre></td></tr></table></figure>
+<p> flags为1的时候，表示该对象需要作为返回值返回，不能立刻释放，反之为0。(包含了一系列的writeInt等方法)</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Parcelable.Creator&lt;T&gt; CREATOR = <span class="keyword">new</span> Parcelable.Creator&lt;T&gt;&#123;	</div><div class="line"><span class="function"><span class="keyword">public</span> T <span class="title">createFromParcel</span><span class="params">(Parcel in)</span></span>;</div><div class="line"><span class="keyword">public</span> T[] newArray(<span class="keyword">int</span> size);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 分别返回对象和数组即可。</p>
+<pre><code class="java">T(Parcel in)
+</code></pre>
+<p> 包含了一系列的readInt等方法来反序列化读入。</p>
 </li>
-</ol>
-<pre><code>flags为1的时候，表示该对象需要作为返回值返回，不能立刻释放，反之为0。(包含了一系列的writeInt等方法)
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Parcelable.Creator&lt;T&gt; CREATOR = <span class="keyword">new</span> Parcelable.Creator&lt;T&gt;&#123;	</div><div class="line"><span class="function"><span class="keyword">public</span> T <span class="title">createFromParcel</span><span class="params">(Parcel in)</span></span>;</div><div class="line"><span class="keyword">public</span> T[] newArray(<span class="keyword">int</span> size);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-分别返回对象和数组即可。
-
-``` java
-T(Parcel in)
-</code></pre><p>```   </p>
-<pre><code>包含了一系列的readInt等方法来反序列化读入。
-</code></pre><ol>
 <li><p>Android中很多类是已经实现了序列化的，比如说Intent、Bundle、Bitmap等，不过要求其包含的元素都是可序列化的。</p>
 </li>
 <li><p>在内存中优先考虑Parcelable，外部存储或者网络传输优先考虑Serializable。</p>
