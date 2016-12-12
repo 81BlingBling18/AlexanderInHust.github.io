@@ -19,14 +19,14 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
 <meta property="og:site_name" content="Alex's Blog">
 <meta property="og:description" content="Tess4J学习因为学院里的项目要求我们做一些OCR的工作，分工的时候分到了做文字识别这方面的活，于是就学习了一些tesseract、tess－two以及最主要的tess4J方面的东西。不得不说这个库对于中文真的是不怎么友好。。
 Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Tess4J实质上是对Tesseract在java中通过jni本地库之类的进行的封装。">
-<meta property="og:image" content="http://yoursite.com/../images/2016_12_12_1.png">
-<meta property="og:image" content="http://yoursite.com/../images/2016_12_12_2.png">
-<meta property="og:updated_time" content="2016-12-12T12:26:22.000Z">
+<meta property="og:image" content="http://yoursite.com/images/2016_12_12_1.png">
+<meta property="og:image" content="http://yoursite.com/images/2016_12_12_2.png">
+<meta property="og:updated_time" content="2016-12-12T12:34:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tess4J学习">
 <meta name="twitter:description" content="Tess4J学习因为学院里的项目要求我们做一些OCR的工作，分工的时候分到了做文字识别这方面的活，于是就学习了一些tesseract、tess－two以及最主要的tess4J方面的东西。不得不说这个库对于中文真的是不怎么友好。。
 Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Tess4J实质上是对Tesseract在java中通过jni本地库之类的进行的封装。">
-<meta name="twitter:image" content="http://yoursite.com/../images/2016_12_12_1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/2016_12_12_1.png">
   
     <link rel="alternate" href="/atom.xml" title="Alex&#39;s Blog" type="application/atom+xml">
   
@@ -90,9 +90,9 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 
-                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                  <li> <a class="main-nav-link" href="/">Startseite</a> </li>
                 
-                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                  <li> <a class="main-nav-link" href="/archives">Archive</a> </li>
                 
                   <li><div id="search-form-wrap">
 
@@ -104,7 +104,7 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <input type="text" class="ins-search-input" placeholder="Schreib etwas..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -116,11 +116,11 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
+            POSTS: 'Beiträge',
+            PAGES: 'Seiten',
+            CATEGORIES: 'Kategorien',
             TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
+            UNTITLED: '(Unbenannt)',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
@@ -183,27 +183,21 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
 <li>Windows上可以通过一个非官方的安装包安装<a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank" rel="external">下载链接</a>；</li>
 </ul>
 </li>
-<li><p>Windows下需要配置环境变量；</p>
-</li>
-<li><p>下载Tess4J库<a href="https://github.com/nguyenq/4. tess4j" target="_blank" rel="external">Github地址</a>；</p>
-</li>
-<li><p>在IDE中配置好Library以及Modules。</p>
-</li>
+<li>Windows下需要配置环境变量；</li>
+<li>下载Tess4J库<a href="https://github.com/nguyenq/4. tess4j" target="_blank" rel="external">Github地址</a>；</li>
+<li>在IDE中配置好Library以及Modules。</li>
 </ol>
 <h2 id="Tess4J的使用"><a href="#Tess4J的使用" class="headerlink" title="Tess4J的使用"></a>Tess4J的使用</h2><p>由于项目的识别要求比较低（大部分锅都交过了切图的大佬），所以也只是使用一小部分方法。大致就总结下列一些东西。</p>
 <h3 id="Tesseract的基本知识"><a href="#Tesseract的基本知识" class="headerlink" title="Tesseract的基本知识"></a>Tesseract的基本知识</h3><ol>
-<li><p>Tesseract的字典：在Tesseract的根目录下我们可以看到一个tessdata文件，里面有很多.traineddata文件，这些就是Tesseract的字典，这些文件是它识别各类文字的关键数据。同时也有一些常用词、生偏词的文件（感觉和中文没有什么关系。。），它们共同作用就可以进行识别。若想要识别其他语言，可以从github上面下载谷歌已经训练好的文件。<a href="https://github.com/tesseract-ocr/tessdata" target="_blank" rel="external">下载链接</a></p>
-</li>
-<li><p>一些基本配置：在tessdata文件中我们也能看见一个config文件夹，打开里面可以看见几个文件。点开之后可以添加各种配置，比如说可以添加黑白名单（我也只用了白名单黑名单。。）。详情参见文档。 </p>
-</li>
-<li><p>直接在命令行里面使用tesseract:</p>
-</li>
+<li>Tesseract的字典：在Tesseract的根目录下我们可以看到一个tessdata文件，里面有很多.traineddata文件，这些就是Tesseract的字典，这些文件是它识别各类文字的关键数据。同时也有一些常用词、生偏词的文件（感觉和中文没有什么关系。。），它们共同作用就可以进行识别。若想要识别其他语言，可以从github上面下载谷歌已经训练好的文件。<a href="https://github.com/tesseract-ocr/tessdata" target="_blank" rel="external">下载链接</a></li>
+<li>一些基本配置：在tessdata文件中我们也能看见一个config文件夹，打开里面可以看见几个文件。点开之后可以添加各种配置，比如说可以添加黑白名单（我也只用了白名单黑名单。。）。详情参见文档。 </li>
+<li>直接在命令行里面使用tesseract:</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tesseract image.png image.txt -psm 6</div></pre></td></tr></table></figure>
 <p>原图:</p>
-<p><img src="../images/2016_12_12_1.png" alt="原图"></p>
+<p><img src="/images/2016_12_12_1.png" alt="原图"></p>
 <p>效果图</p>
-<p><img src="../images/2016_12_12_2.png" alt="识别文件"></p>
+<p><img src="/images/2016_12_12_2.png" alt="识别文件"></p>
 <h3 id="TessAPI类"><a href="#TessAPI类" class="headerlink" title="TessAPI类"></a>TessAPI类</h3><p>这个类我估计是一个单例模式，因为只提供了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TessAPI api = TessAPI.INSTANCE;</div></pre></td></tr></table></figure></p>
 <p>这个东西来创建一个实例。在我看来这个类即是一个Manager，它管理着几乎所有的方法的调用。</p>
 <p>几个常用的方法：</p>
@@ -218,6 +212,8 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
 <p> Assume a single uniform block of text.</p>
 <p> 这段英文真的看的不是很懂，字面意思似乎在说是一块文字。我认为可能是针对拉丁语系的文字中，一段一段之间要分开的那种形式。不过该模式识别率比较高。</p>
 </li>
+</ol>
+<ol>
 <li><p>PSM_SINGLE_CHAR</p>
 <p> Treat the image as a single character.</p>
 <p> 将整张图片都视为一个字母（单字）来识别。这是识别率最高的一种方法，同时也是我们做这次项目的时候采用的方法，如果文字不是很清晰的话，可以考虑使用这种模式。</p>
@@ -261,8 +257,7 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
 <li>让文字之间的空隙变大；（在很多情况下还是会将一个字拆成两个，Tesseract并没有发现字与字之间的空隙）</li>
 <li>在字与字之间加上明显的线来区分每一个字。（在有些情况却是可行的。。。）</li>
 </ol>
-<h3 id="实验中的处理方法"><a href="#实验中的处理方法" class="headerlink" title="实验中的处理方法"></a>实验中的处理方法</h3><p>对最后的文字进行分词及语法分析，找出其中明显的错字，然后再字典中寻找对应正确的词。</p>
-<p>目前lucene库似乎可以满足要求。。</p>
+<h3 id="实验中的处理方法"><a href="#实验中的处理方法" class="headerlink" title="实验中的处理方法"></a>实验中的处理方法</h3><p>对最后的文字进行分词及语法分析，找出其中明显的错字，然后再字典中寻找对应正确的词。<br>目前lucene库似乎可以满足要求。。</p>
 <h2 id="Tesseract的训练"><a href="#Tesseract的训练" class="headerlink" title="Tesseract的训练"></a>Tesseract的训练</h2><p>网上有太多的资料可以查询，但是要注意的是：</p>
 <ol>
 <li>应该不能再目前已有的字典上再次进行训练；</li>
@@ -309,7 +304,7 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
   
   
     <a href="/2016/12/12/ipc机制/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
+      <strong class="article-nav-caption">Älter</strong>
       <div class="article-nav-title">Android中的IPC机制</div>
     </a>
   
@@ -322,7 +317,7 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
 
   <aside id="sidebar">
     <div id="toc" class="toc-article">
-    <strong class="toc-title">Contents</strong>
+    <strong class="toc-title">Inhalt</strong>
     
       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tess4J学习"><span class="toc-number">1.</span> <span class="toc-text">Tess4J学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Tess4J的导入"><span class="toc-number">1.1.</span> <span class="toc-text">Tess4J的导入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tess4J的使用"><span class="toc-number">1.2.</span> <span class="toc-text">Tess4J的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Tesseract的基本知识"><span class="toc-number">1.2.1.</span> <span class="toc-text">Tesseract的基本知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TessAPI类"><span class="toc-number">1.2.2.</span> <span class="toc-text">TessAPI类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIX类和PIXA类"><span class="toc-number">1.2.3.</span> <span class="toc-text">PIX类和PIXA类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提高识别率"><span class="toc-number">1.3.</span> <span class="toc-text">提高识别率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官方提供的方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">官方提供的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他的办法"><span class="toc-number">1.3.2.</span> <span class="toc-text">其他的办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#没有用的一些处理"><span class="toc-number">1.3.3.</span> <span class="toc-text">没有用的一些处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实验中的处理方法"><span class="toc-number">1.3.4.</span> <span class="toc-text">实验中的处理方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tesseract的训练"><span class="toc-number">1.4.</span> <span class="toc-text">Tesseract的训练</span></a></li></ol></li></ol>
     
@@ -339,7 +334,7 @@ Tess4J的导入为了使用Tess4J，我们首先要去下载Tesseract。因为Te
       <div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
 	      <p id="copyRightEn">Copyright &copy; 2013 - 2016 Alex&#39;s Blog All Rights Reserved.</p>
-	      <p id="copyRightCn">Yifeng Tang hold copyright</p>
+	      <p id="copyRightCn">Yifeng Tang hält Urheberrechtsansprüche.</p>
 	</div>
   </div>
 </footer>
