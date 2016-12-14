@@ -63,16 +63,16 @@
         <nav id="main-nav">
           <a id="main-nav-toggle" class="nav-icon"></a>
           
-            <a class="main-nav-link" href="/">Startseite</a>
+            <a class="main-nav-link" href="/">Home</a>
           
-            <a class="main-nav-link" href="/archives">Archive</a>
+            <a class="main-nav-link" href="/archives">Archives</a>
           
         </nav>
         <nav id="sub-nav">
           
             <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
           
-          <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
         </nav>
         <div id="search-form-wrap">
           <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -83,7 +83,7 @@
 
 
   
-    <div id="intrologo" class="intro-logo" style="background-position:center; background-repeat:no-repeat; background-image: url(/css/images/image1.jpg); background-size: auto 100%;">
+    <div id="intrologo" class="intro-logo" style="background-position:center; background-repeat:no-repeat; background-image: url(/css/images/image4.jpg); background-size: auto 100%;">
   
 
     <canvas width="100%" height="100%"></canvas>
@@ -158,9 +158,9 @@
   <div class="intro-navigate">
       <p class="navigater-list">
         
-          <a id="beautifont" class="main-nav-link" href="/">Startseite</a>
+          <a id="beautifont" class="main-nav-link" href="/">Home</a>
         
-          <a id="beautifont" class="main-nav-link" href="/archives">Archive</a>
+          <a id="beautifont" class="main-nav-link" href="/archives">Archives</a>
         
       </p>
   </div>
@@ -201,8 +201,8 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Tess4J学习"><a href="#Tess4J学习" class="headerlink" title="Tess4J学习"></a>Tess4J学习</h1><pre><code>因为学院里的项目要求我们做一些OCR的工作，分工的时候分到了做文字识别这方面的活，于是就学习了一些tesseract、tess－two以及最主要的tess4J方面的东西。不得不说这个库对于中文真的是不怎么友好。。
-</code></pre><h2 id="Tess4J的导入"><a href="#Tess4J的导入" class="headerlink" title="Tess4J的导入"></a>Tess4J的导入</h2><p>为了使用Tess4J，我们首先要去下载Tesseract。因为Tess4J实质上是对Tesseract在java中通过jni本地库之类的进行的封装。</p>
+        <pre><code>因为学院里的项目要求我们做一些OCR的工作，分工的时候分到了做文字识别这方面的活，于是就学习了一些tesseract、tess－two以及最主要的tess4J方面的东西。不得不说这个库对于中文真的是不怎么友好。。
+</code></pre><h1 id="Tess4J的导入"><a href="#Tess4J的导入" class="headerlink" title="Tess4J的导入"></a>Tess4J的导入</h1><p>为了使用Tess4J，我们首先要去下载Tesseract。因为Tess4J实质上是对Tesseract在java中通过jni本地库之类的进行的封装。</p>
 <ol>
 <li><p>下载Tesseract </p>
 <ul>
@@ -217,8 +217,8 @@
 <li>下载Tess4J库<a href="https://github.com/nguyenq/4. tess4j" target="_blank" rel="external">Github地址</a>；</li>
 <li>在IDE中配置好Library以及Modules。</li>
 </ol>
-<h2 id="Tess4J的使用"><a href="#Tess4J的使用" class="headerlink" title="Tess4J的使用"></a>Tess4J的使用</h2><p>由于项目的识别要求比较低（大部分锅都交过了切图的大佬），所以也只是使用一小部分方法。大致就总结下列一些东西。</p>
-<h3 id="Tesseract的基本知识"><a href="#Tesseract的基本知识" class="headerlink" title="Tesseract的基本知识"></a>Tesseract的基本知识</h3><ol>
+<h1 id="Tess4J的使用"><a href="#Tess4J的使用" class="headerlink" title="Tess4J的使用"></a>Tess4J的使用</h1><p>由于项目的识别要求比较低（大部分锅都交过了切图的大佬），所以也只是使用一小部分方法。大致就总结下列一些东西。</p>
+<h2 id="Tesseract的基本知识"><a href="#Tesseract的基本知识" class="headerlink" title="Tesseract的基本知识"></a>Tesseract的基本知识</h2><ol>
 <li>Tesseract的字典：在Tesseract的根目录下我们可以看到一个tessdata文件，里面有很多.traineddata文件，这些就是Tesseract的字典，这些文件是它识别各类文字的关键数据。同时也有一些常用词、生偏词的文件（感觉和中文没有什么关系。。），它们共同作用就可以进行识别。若想要识别其他语言，可以从github上面下载谷歌已经训练好的文件。<a href="https://github.com/tesseract-ocr/tessdata" target="_blank" rel="external">下载链接</a></li>
 <li>一些基本配置：在tessdata文件中我们也能看见一个config文件夹，打开里面可以看见几个文件。点开之后可以添加各种配置，比如说可以添加黑白名单（我也只用了白名单黑名单。。）。详情参见文档。 </li>
 <li>直接在命令行里面使用tesseract:</li>
@@ -228,14 +228,14 @@
 <p><img src="/images/2016_12_12_1.png" alt="原图"></p>
 <p>效果图</p>
 <p><img src="/images/2016_12_12_2.png" alt="识别文件"></p>
-<h3 id="TessAPI类"><a href="#TessAPI类" class="headerlink" title="TessAPI类"></a>TessAPI类</h3><p>这个类我估计是一个单例模式，因为只提供了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TessAPI api = TessAPI.INSTANCE;</div></pre></td></tr></table></figure></p>
+<h2 id="TessAPI类"><a href="#TessAPI类" class="headerlink" title="TessAPI类"></a>TessAPI类</h2><p>这个类我估计是一个单例模式，因为只提供了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TessAPI api = TessAPI.INSTANCE;</div></pre></td></tr></table></figure></p>
 <p>这个东西来创建一个实例。在我看来这个类即是一个Manager，它管理着几乎所有的方法的调用。</p>
 <p>几个常用的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ITessAPI.TessBaseAPI handler = api.TessBaseAPICreate();</div></pre></td></tr></table></figure>
+<h3 id="TessBaseAPICreate"><a href="#TessBaseAPICreate" class="headerlink" title="TessBaseAPICreate"></a>TessBaseAPICreate</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ITessAPI.TessBaseAPI handler = api.TessBaseAPICreate();</div></pre></td></tr></table></figure>
 <p>这个方法将会创建一个TessBaseAPI类的实例，这个实例就是真正在处理各个任务的类。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api.TessBaseAPIInit3(TessBaseAPI handler, String dataPath, String language);</div></pre></td></tr></table></figure>
+<h3 id="TessBaseAPIInit3"><a href="#TessBaseAPIInit3" class="headerlink" title="TessBaseAPIInit3"></a>TessBaseAPIInit3</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api.TessBaseAPIInit3(TessBaseAPI handler, String dataPath, String language);</div></pre></td></tr></table></figure>
 <p>该方法将会进行OCR的初始化。dataPath指的是存放了tessData（存放了所有字典的文件夹）这个文件夹的目录，可以是绝对或者相对地址。language就是所需要识别的语言，其必须与tessData中的字典文件前缀名相符。例如chi_sim.traineddata，前缀就是chi_sim。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api.TessBaseAPISetPAgeSegMode(TessBaseAPI handler, ITessAPI.TessPageSegMode.*);</div></pre></td></tr></table></figure>
+<h3 id="TessBaseAPISetPageSegMode"><a href="#TessBaseAPISetPageSegMode" class="headerlink" title="TessBaseAPISetPageSegMode"></a>TessBaseAPISetPageSegMode</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api.TessBaseAPISetPageSegMode(TessBaseAPI handler, ITessAPI.TessPageSegMode.*);</div></pre></td></tr></table></figure>
 <p>对分析页面的分页模式，这也是提高识别率的最关键的一个方法。后面的Mode一共有11种，下面只选取我认为比较有用的几个：</p>
 <ol>
 <li><p>PSM_SINGLE_BLOCK</p>
@@ -257,21 +257,21 @@
 <p> 奇奇怪怪的模式，会将所有的东西尽可能的识别。有些时候就会发生把一个字拆成了两部分之类的问题。</p>
 </li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api.TessBaseAPISetImage2(ITessAPI.TessBaseAPI handler, Pix pix);</div></pre></td></tr></table></figure>
+<h3 id="TessBaseAPISetImage2"><a href="#TessBaseAPISetImage2" class="headerlink" title="TessBaseAPISetImage2"></a>TessBaseAPISetImage2</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">api.TessBaseAPISetImage2(ITessAPI.TessBaseAPI handler, Pix pix);</div></pre></td></tr></table></figure>
 <p>设置将要处理的图片，这里的Pix类并不是很懂。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Pointer pointer = api.TessBaseAPIGetUTF8Text(handle);</div></pre></td></tr></table></figure>
+<h3 id="TessBaseAPIGetUTF8Text"><a href="#TessBaseAPIGetUTF8Text" class="headerlink" title="TessBaseAPIGetUTF8Text"></a>TessBaseAPIGetUTF8Text</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Pointer pointer = api.TessBaseAPIGetUTF8Text(handle);</div></pre></td></tr></table></figure>
 <p>识别并且获取识别到的数据，这个数据是以jna中的指针传回来的。这个是为了与本地库中的指针向接，最后只需要对pointer调用getString就可以获得想要的结果了。</p>
-<h3 id="PIX类和PIXA类"><a href="#PIX类和PIXA类" class="headerlink" title="PIX类和PIXA类"></a>PIX类和PIXA类</h3><p>两个完全不明所以的类。。。他们是另一个叫做Leptonica的依赖库的两个类，大致功能是负责图像的存储，由于Leptonica的文档全是C的，又多又杂都不知道怎么去看。。所以基本不懂，大致按照test来做。不过可以知道PIXA是PIX的array。</p>
+<h2 id="PIX类和PIXA类"><a href="#PIX类和PIXA类" class="headerlink" title="PIX类和PIXA类"></a>PIX类和PIXA类</h2><p>两个完全不明所以的类。。。他们是另一个叫做Leptonica的依赖库的两个类，大致功能是负责图像的存储，由于Leptonica的文档全是C的，又多又杂都不知道怎么去看。。所以基本不懂，大致按照test来做。不过可以知道PIXA是PIX的array。</p>
 <p>本次项目中只是用到了它们与BuffererdImage的转换，以直接传入图片数据，不必再去获取image的数据来初始化。。（好像没见过除了Tesseract之外的库或者项目用过这个库。。）</p>
-<h2 id="提高识别率"><a href="#提高识别率" class="headerlink" title="提高识别率"></a>提高识别率</h2><p>写下了以上的代码之后，可以发现的是，识别率依旧是非常感人的，基本不能看，所以我们必须要提高识别率。</p>
-<h3 id="官方提供的方法"><a href="#官方提供的方法" class="headerlink" title="官方提供的方法"></a>官方提供的方法</h3><ol>
+<h1 id="提高识别率"><a href="#提高识别率" class="headerlink" title="提高识别率"></a>提高识别率</h1><p>写下了以上的代码之后，可以发现的是，识别率依旧是非常感人的，基本不能看，所以我们必须要提高识别率。</p>
+<h2 id="官方提供的方法"><a href="#官方提供的方法" class="headerlink" title="官方提供的方法"></a>官方提供的方法</h2><ol>
 <li>Binarisation：二值化</li>
 <li>Noise Removal：祛除噪点</li>
 <li>Rotation：把图片转正</li>
 <li>Border Removal：除去所有边框</li>
 </ol>
 <p>以上所有工作显然是OpenCV可以完成的。</p>
-<h3 id="其他的办法"><a href="#其他的办法" class="headerlink" title="其他的办法"></a>其他的办法</h3><ol>
+<h2 id="其他的办法"><a href="#其他的办法" class="headerlink" title="其他的办法"></a>其他的办法</h2><ol>
 <li>文字的尺寸不能低于10px，尽量在20px左右；</li>
 <li>文字的周围要有一定的空间留白，不要定格；</li>
 <li>图片一定是灰度的，不能是RGB格式的图片；</li>
@@ -280,15 +280,15 @@
 <li>宋体的识别率相对要高一些；</li>
 <li>网上有人说Tesseract的分类器是自学习的，所以一次初始化之后要多次使用，效果会越来越好。甚至可以在前面先加入一大段文字，然后再识别正文。（加段文字这个方法有些情况是有效的，有些时候没效果，酌情使用）</li>
 </ol>
-<h3 id="没有用的一些处理"><a href="#没有用的一些处理" class="headerlink" title="没有用的一些处理"></a>没有用的一些处理</h3><ol>
+<h2 id="没有用的一些处理"><a href="#没有用的一些处理" class="headerlink" title="没有用的一些处理"></a>没有用的一些处理</h2><ol>
 <li>调高图片的dip；（虽然官方说有用，但实际上确实没发现效果）</li>
 <li>反色；</li>
 <li>让文字变粗或者变细；</li>
 <li>让文字之间的空隙变大；（在很多情况下还是会将一个字拆成两个，Tesseract并没有发现字与字之间的空隙）</li>
 <li>在字与字之间加上明显的线来区分每一个字。（在有些情况却是可行的。。。）</li>
 </ol>
-<h3 id="实验中的处理方法"><a href="#实验中的处理方法" class="headerlink" title="实验中的处理方法"></a>实验中的处理方法</h3><p>对最后的文字进行分词及语法分析，找出其中明显的错字，然后再字典中寻找对应正确的词。<br>目前lucene库似乎可以满足要求。。</p>
-<h2 id="Tesseract的训练"><a href="#Tesseract的训练" class="headerlink" title="Tesseract的训练"></a>Tesseract的训练</h2><p>网上有太多的资料可以查询，但是要注意的是：</p>
+<h2 id="实验中的处理方法"><a href="#实验中的处理方法" class="headerlink" title="实验中的处理方法"></a>实验中的处理方法</h2><p>对最后的文字进行分词及语法分析，找出其中明显的错字，然后再字典中寻找对应正确的词。<br>目前lucene库似乎可以满足要求。。</p>
+<h1 id="Tesseract的训练"><a href="#Tesseract的训练" class="headerlink" title="Tesseract的训练"></a>Tesseract的训练</h1><p>网上有太多的资料可以查询，但是要注意的是：</p>
 <ol>
 <li>应该不能再目前已有的字典上再次进行训练；</li>
 <li>图片一定要是灰度或者二值化的，否则大量图片无法识别；</li>
@@ -336,7 +336,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="IPC机制"><a href="#IPC机制" class="headerlink" title="IPC机制"></a>IPC机制</h2><h3 id="安卓的多进程机制："><a href="#安卓的多进程机制：" class="headerlink" title="安卓的多进程机制："></a>安卓的多进程机制：</h3><ol>
+        <h1 id="IPC机制"><a href="#IPC机制" class="headerlink" title="IPC机制"></a>IPC机制</h1><h2 id="安卓的多进程机制："><a href="#安卓的多进程机制：" class="headerlink" title="安卓的多进程机制："></a>安卓的多进程机制：</h2><ol>
 <li><p>对于安卓来说，每一个进程是在一个单独虚拟机中运行的。也就是说不能很简单的共享两个不同的虚拟机中的堆内存，必须要用Binder机制来进行管理。</p>
 </li>
 <li><p>多进程下会出现一下问题：</p>
@@ -350,7 +350,7 @@
 <li><p>多进程的启动只需在四大组件中加入android:process属性即可。其中名字如果是以冒号:打头，表明是一个私有进程；如果包括了全部包名，就是公用进程，其他的应用可以通过ShareUID在同一个进程中进行访问，就好像是同一个应用的两个部分。<a href="关于ShareUserID的用法：http://www.cnblogs.com/mythou/p/3258715.html">关于ShareUserID的用法</a></p>
 </li>
 </ol>
-<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><ol>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><ol>
 <li><p>Serializable接口</p>
 <p> 只需要任意提供一个</p>
  <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID;</div></pre></td></tr></table></figure>
@@ -371,7 +371,7 @@
 <li><p>在内存中优先考虑Parcelable，外部存储或者网络传输优先考虑Serializable。</p>
 </li>
 </ol>
-<h3 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h3><p>待续……</p>
+<h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>待续……</p>
 
       
     </div>
@@ -454,7 +454,7 @@
       <div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
 	      <p id="copyRightEn">Copyright &copy; 2013 - 2016 Alex&#39;s Blog All Rights Reserved.</p>
-	      <p id="copyRightCn">Yifeng Tang hält Urheberrechtsansprüche.</p>
+	      <p id="copyRightCn">Yifeng Tang hold copyright</p>
 	</div>
   </div>
 </footer>
