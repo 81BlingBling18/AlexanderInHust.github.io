@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>binder的学习 | Alex&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="IPCStudy" />
+  
+  
+  
+  
+  <meta name="description" content="Binder是一个实现了IBinder接口的一个类。它是一种跨进程通信的方式，同时也是一种虚拟物理设备，同时也还是ServiceManager链接Manager和ManagerService的桥梁。当bindService的时候，服务端会返回一个包含了服务端业务调用的Binder对象，可以通过这个对象来获取相应的服务或者数据。
+AIDLAIDL (Android Interface Definit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Binder的学习">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Binder学习/index.html">
+<meta property="og:site_name" content="Alex's Blog">
+<meta property="og:description" content="Binder是一个实现了IBinder接口的一个类。它是一种跨进程通信的方式，同时也是一种虚拟物理设备，同时也还是ServiceManager链接Manager和ManagerService的桥梁。当bindService的时候，服务端会返回一个包含了服务端业务调用的Binder对象，可以通过这个对象来获取相应的服务或者数据。
+AIDLAIDL (Android Interface Definit">
+<meta property="og:image" content="http://yoursite.com/images/2016_12_15_1.png">
+<meta property="og:image" content="http://yoursite.com/images/2016_12_15_2.png">
+<meta property="og:updated_time" content="2016-12-15T14:56:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Binder的学习">
+<meta name="twitter:description" content="Binder是一个实现了IBinder接口的一个类。它是一种跨进程通信的方式，同时也是一种虚拟物理设备，同时也还是ServiceManager链接Manager和ManagerService的桥梁。当bindService的时候，服务端会返回一个包含了服务端业务调用的Binder对象，可以通过这个对象来获取相应的服务或者数据。
+AIDLAIDL (Android Interface Definit">
+<meta name="twitter:image" content="http://yoursite.com/images/2016_12_15_1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Alex&#39;s Blog" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/mylogo.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+
+</head>
+
+<body>
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/mylogo.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">Home</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">Archives</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Binder学习" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Binder的学习
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2016/12/15/Binder学习/" class="article-date">
+	  <time datetime="2016-12-15T14:56:35.000Z" itemprop="datePublished">2016-12-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Binder是一个实现了IBinder接口的一个类。它是一种跨进程通信的方式，同时也是一种虚拟物理设备，同时也还是ServiceManager链接Manager和ManagerService的桥梁。当bindService的时候，服务端会返回一个包含了服务端业务调用的Binder对象，可以通过这个对象来获取相应的服务或者数据。</p>
+<h1 id="AIDL"><a href="#AIDL" class="headerlink" title="AIDL"></a>AIDL</h1><p>AIDL (Android Interface Definition Language) 是一种IDL，在Android中，我们可以通过AIDL由系统自动生成我们所需要的Binder类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// IAddLife.aidl</span></div><div class="line"><span class="keyword">package</span> com.project.tangyifeng.ipctest;</div><div class="line"><span class="keyword">import</span> com.project.tangyifeng.ipctest.IAddLifeListener;</div><div class="line"></div><div class="line"><span class="comment">// Declare any non-default types here with import statements</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IAddLife</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Demonstrates some basic types that you can use as parameters</div><div class="line">     * and return values in AIDL.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">basicTypes</span><span class="params">(<span class="keyword">int</span> anInt, <span class="keyword">long</span> aLong, <span class="keyword">boolean</span> aBoolean, <span class="keyword">float</span> aFloat,</span></span></div><div class="line">            <span class="keyword">double</span> aDouble, String aString);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addASecond</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">registerListener</span><span class="params">(IAddLifeListener listener)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unregisterListener</span><span class="params">(IAddLifeListener listener)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// IAddLifeListener.aidl</span></div><div class="line"><span class="keyword">package</span> com.project.tangyifeng.ipctest;</div><div class="line"></div><div class="line"><span class="comment">// Declare any non-default types here with import statements</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IAddLifeListener</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Demonstrates some basic types that you can use as parameters</div><div class="line">     * and return values in AIDL.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">basicTypes</span><span class="params">(<span class="keyword">int</span> anInt, <span class="keyword">long</span> aLong, <span class="keyword">boolean</span> aBoolean, <span class="keyword">float</span> aFloat,</span></span></div><div class="line">            <span class="keyword">double</span> aDouble, String aString);</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onLifeLengthened</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这两个文件可以在Android Studio中通过右键-&gt;Add-&gt;AIDL，就可以创建。在AIDL文件中，可以使用的数据类型包括下面几种：</p>
+<ul>
+<li>基本数据类型；</li>
+<li>String 和 CharSequence；</li>
+<li>List，只支持ArrayList，同时要求内部元素都能被支持；</li>
+<li>Map，只支持HashMap，同时要求内部元素都能被支持；</li>
+<li>Parcelable；</li>
+<li>AIDL</li>
+</ul>
+<p>注：如果AIDL中用到了自定义类，必须创建一个同名的AIDL文件；所有的在一个package内的AIDL还是必须互相import之后，才能正常使用。</p>
+<h1 id="由AIDL生成的一个Binder"><a href="#由AIDL生成的一个Binder" class="headerlink" title="由AIDL生成的一个Binder"></a>由AIDL生成的一个Binder</h1><p><img src="/images/2016_12_15_1.png" alt="位置"></p>
+<p>经过Android Studio的生成之后，我们就能在以上的位置找到AIDL所生成的Binder类文件。那么这个类里面到底包含了哪些内容呢？让我们来看一看。</p>
+<h2 id="AIDL定义的方法"><a href="#AIDL定义的方法" class="headerlink" title="AIDL定义的方法"></a>AIDL定义的方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">basicTypes</span><span class="params">(<span class="keyword">int</span> anInt, <span class="keyword">long</span> aLong, <span class="keyword">boolean</span> aBoolean, <span class="keyword">float</span> aFloat, <span class="keyword">double</span> aDouble, java.lang.String aString)</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addASecond</span><span class="params">()</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerListener</span><span class="params">(com.project.tangyifeng.ipctest.IAddLifeListener listener)</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterListener</span><span class="params">(com.project.tangyifeng.ipctest.IAddLifeListener listener)</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</div></pre></td></tr></table></figure>
+<p>显然，以上的这些方法，就是我们刚才在AIDL接口里面所定义的所有方法。这些自然不是Binder的关键，下一个才是Binder的核心。</p>
+<h2 id="class-Stub"><a href="#class-Stub" class="headerlink" title="class Stub"></a>class Stub</h2><h3 id="DESCRIPTOR"><a href="#DESCRIPTOR" class="headerlink" title="DESCRIPTOR"></a>DESCRIPTOR</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> java.lang.String DESCRIPTOR = <span class="string">"com.project.tangyifeng.ipctest.IAddLife"</span>;</div></pre></td></tr></table></figure>
+<p>它是Binder的唯一标志，一般是以当前Binder的类的类名表示的。</p>
+<h3 id="asInterface-IBinder-obj"><a href="#asInterface-IBinder-obj" class="headerlink" title="asInterface(IBinder obj)"></a>asInterface(IBinder obj)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> com.project.tangyifeng.ipctest.<span class="function">IAddLife <span class="title">asInterface</span><span class="params">(android.os.IBinder obj)</span></span>&#123;</div><div class="line">	<span class="keyword">if</span> ((obj==<span class="keyword">null</span>)) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);</div><div class="line">	<span class="keyword">if</span> (((iin!=<span class="keyword">null</span>)&amp;&amp;(iin <span class="keyword">instanceof</span> com.project.tangyifeng.ipctest.IAddLife))) &#123;</div><div class="line">		<span class="keyword">return</span> ((com.project.tangyifeng.ipctest.IAddLife)iin);</div><div class="line">	&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> com.project.tangyifeng.ipctest.IAddLife.Stub.Proxy(obj);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用于将服务端的Binder对象转换为客户端所需的AIDL类口类型的对象。其中的queryLocalInterface是用来区分这个Binder和obj是否在同一个进程中，如果是就直接返回；如果不是就返回代理类Proxy。</p>
+<h3 id="asBinder"><a href="#asBinder" class="headerlink" title="asBinder"></a>asBinder</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">android.os.<span class="function">IBinder <span class="title">asBinder</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用于返回当前的Binder对象。</p>
+<p>注：Interface用于功能操作，Binder用于进程间的通讯。asInterface和asBinder的功能是正好相反的，就像一对反函数。</p>
+<h3 id="onTransact"><a href="#onTransact" class="headerlink" title="onTransact"></a>onTransact</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, android.os.Parcel data, android.os.Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> android.os.RemoteException</span>&#123;</div><div class="line">	<span class="keyword">switch</span> (code)&#123;</div><div class="line">	<span class="keyword">case</span> INTERFACE_TRANSACTION:&#123;</div><div class="line">		reply.writeString(DESCRIPTOR);</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> TRANSACTION_basicTypes:&#123;</div><div class="line">		data.enforceInterface(DESCRIPTOR);</div><div class="line">		<span class="keyword">int</span> _arg0;</div><div class="line">		_arg0 = data.readInt();</div><div class="line">		<span class="keyword">long</span> _arg1;</div><div class="line">		_arg1 = data.readLong();</div><div class="line">		<span class="keyword">boolean</span> _arg2;</div><div class="line">		_arg2 = (<span class="number">0</span>!=data.readInt());</div><div class="line">		<span class="keyword">float</span> _arg3;</div><div class="line">		_arg3 = data.readFloat();</div><div class="line">		<span class="keyword">double</span> _arg4;</div><div class="line">		_arg4 = data.readDouble();</div><div class="line">		java.lang.String _arg5;</div><div class="line">		_arg5 = data.readString();</div><div class="line">		<span class="keyword">this</span>.basicTypes(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5);</div><div class="line">		reply.writeNoException();</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> TRANSACTION_addASecond:&#123;</div><div class="line">		data.enforceInterface(DESCRIPTOR);</div><div class="line">		<span class="keyword">this</span>.addASecond();</div><div class="line">		reply.writeNoException();</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> TRANSACTION_registerListener:&#123;</div><div class="line">		data.enforceInterface(DESCRIPTOR);</div><div class="line">		com.project.tangyifeng.ipctest.IAddLifeListener _arg0;</div><div class="line">		_arg0 = com.project.tangyifeng.ipctest.IAddLifeListener.Stub.asInterface(data.readStrongBinder());</div><div class="line">		<span class="keyword">this</span>.registerListener(_arg0);</div><div class="line">		reply.writeNoException();</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> TRANSACTION_unregisterListener:&#123;</div><div class="line">		data.enforceInterface(DESCRIPTOR);</div><div class="line">		com.project.tangyifeng.ipctest.IAddLifeListener _arg0;</div><div class="line">		_arg0 = com.project.tangyifeng.ipctest.IAddLifeListener.Stub.asInterface(data.readStrongBinder());</div><div class="line">		<span class="keyword">this</span>.unregisterListener(_arg0);</div><div class="line">		reply.writeNoException();</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">super</span>.onTransact(code, data, reply, flags);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个方法将会在服务端的Binder线程池中运行。服务端将通过code的值来确定客户端请求的方法到底是什么，然后从data中取出相应的参数再执行相应的方法。当方法执行完之后就会把返回值写入reply中返回回去。这个方法的返回值如果是false的话，就说明客户端的请求失败了，这样也就可以控制进程的权限。</p>
+<h3 id="Proxy类"><a href="#Proxy类" class="headerlink" title="Proxy类"></a>Proxy类</h3><p>Proxy类和外部类的方法几乎一致，但是它的方法将会在客户端里面运行。当客户端调用方法的时候，先创建相应的data、reply和返回对象List，将参数写入之后调用transact方法向服务端发送请求，同时挂起当前线程，直到远端返回了数据，就从reply中获取数据然后再返回。</p>
+<h1 id="Binder的工作方式"><a href="#Binder的工作方式" class="headerlink" title="Binder的工作方式"></a>Binder的工作方式</h1><p><img src="/images/2016_12_15_2.png" alt="如图"></p>
+<h1 id="使用Binder来实现一个多进程服务"><a href="#使用Binder来实现一个多进程服务" class="headerlink" title="使用Binder来实现一个多进程服务"></a>使用Binder来实现一个多进程服务</h1>
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+	<div id="comment">
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2016/12/15/Binder学习/" data-title="Binder的学习" data-url="http://yoursite.com/2016/12/15/Binder学习/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"iTimeTraveler"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IPC/">IPC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Study/">Study</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/14/ipc机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android中的IPC机制</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">Contents</strong>
+    
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AIDL"><span class="toc-number">1.</span> <span class="toc-text">AIDL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#由AIDL生成的一个Binder"><span class="toc-number">2.</span> <span class="toc-text">由AIDL生成的一个Binder</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#AIDL定义的方法"><span class="toc-number">2.1.</span> <span class="toc-text">AIDL定义的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#class-Stub"><span class="toc-number">2.2.</span> <span class="toc-text">class Stub</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DESCRIPTOR"><span class="toc-number">2.2.1.</span> <span class="toc-text">DESCRIPTOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#asInterface-IBinder-obj"><span class="toc-number">2.2.2.</span> <span class="toc-text">asInterface(IBinder obj)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#asBinder"><span class="toc-number">2.2.3.</span> <span class="toc-text">asBinder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onTransact"><span class="toc-number">2.2.4.</span> <span class="toc-text">onTransact</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proxy类"><span class="toc-number">2.2.5.</span> <span class="toc-text">Proxy类</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Binder的工作方式"><span class="toc-number">3.</span> <span class="toc-text">Binder的工作方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Binder来实现一个多进程服务"><span class="toc-number">4.</span> <span class="toc-text">使用Binder来实现一个多进程服务</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      <div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2016 Alex&#39;s Blog All Rights Reserved.</p>
+	      <p id="copyRightCn">Yifeng Tang hold copyright</p>
+	</div>
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav> -->
+    
+<div style="display: none;">
+  <script src="https://s11.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+</div>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Alex&#39;s Blog
+          </div>
+          <div class="panel-body">
+            Copyright © 2016 Yifeng Tang All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+</body>
+</html>
